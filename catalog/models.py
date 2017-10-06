@@ -29,6 +29,11 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('book-detail', args=[str(self.id)])
 
+    def display_genre(self):
+        """Creates a string for the genre."""
+        return ', '.join([genre.name for genre in self.genre.all()[:3]])
+    display_genre.short_description = 'Genre'
+
 
 class BookInstance(models.Model):
     """Model representing a specific copy of a book."""
@@ -73,7 +78,8 @@ class Author(models.Model):
         """String for representing the Model object."""
         return '%s, %s' % (self.last_name, self.first_name)
 
-class language(models.Model):
+
+class Language(models.Model):
     """Model representing a language."""
 
     name = models.CharField(max_length=200, help_text="Enter the books language.")
