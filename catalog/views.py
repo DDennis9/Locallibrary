@@ -4,6 +4,7 @@ from .models import Book, Author, BookInstance, Genre, Language
 
 # Create your views here.
 
+
 def index(request):
     """View function for home page of site."""
     # Generate counts of some of the main objects
@@ -15,13 +16,18 @@ def index(request):
     num_genres = Genre.objects.count()
     num_languages = Language.objects.count()
 
+    # Number of visits to this view, as counted in the session variable. Get value of the num_visits key, set it
+    # to 1 if it does not exist.
+    num_visits = request.session.get('num_visits', 1)
+    request.session['num_visits'] = num_visits + 1
+
     # Render the HTML template index.html with the data in the context variable
     return render(
         request,
         'index.html',
         context={'num_books': num_books, 'num_instances': num_instances,
                  'num_instances_available': num_instances_available, 'num_authors': num_authors,
-                 'num_genres': num_genres, 'num_languages': num_languages},
+                 'num_genres': num_genres, 'num_languages': num_languages, 'num_visits': num_visits},
     )
 
 

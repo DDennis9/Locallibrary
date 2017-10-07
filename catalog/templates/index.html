@@ -17,4 +17,6 @@
     <li><strong>Languages:</strong> {{ num_languages }}</li>
   </ul>
 
+  <p>You have visited the page {{ num_visits }} {% if num_visits == 1 %} time {% else %} times {% endif %}</p>
+
 {% endblock %}
