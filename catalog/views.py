@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views import generic
 from .models import Book, Author, BookInstance, Genre, Language
 
 # Create your views here.
@@ -22,3 +23,14 @@ def index(request):
                  'num_instances_available': num_instances_available, 'num_authors': num_authors,
                  'num_genres': num_genres, 'num_languages': num_languages},
     )
+
+
+class BookListView(generic.ListView):
+    # will render the template book_list.html ("model_name"_list.html), if not specified
+    model = Book
+    paginate_by = 2
+
+
+class BookDetailView(generic.DetailView):
+    # will render the template book.html ("model_name"_detail.html), if not specified
+    model = Book
