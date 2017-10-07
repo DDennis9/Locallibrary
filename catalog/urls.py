@@ -9,4 +9,5 @@ urlpatterns = [
     # digits, digits are stored in a variable called pk.
     url(r'^authors/$', views.AuthorListView.as_view(), name='authors'),
     url(r'^authors/(?P<pk>\d+)$', views.AuthorDetailView.as_view(), name='author-detail'),
+    url(r'^mybooks/$', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
 ]
