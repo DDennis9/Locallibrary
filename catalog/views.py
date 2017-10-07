@@ -34,3 +34,11 @@ class BookListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     # will render the template book.html ("model_name"_detail.html), if not specified
     model = Book
+
+
+class AuthorListView(generic.ListView):
+    model = Author
+
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
