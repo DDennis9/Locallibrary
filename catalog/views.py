@@ -3,10 +3,13 @@ from django.views import generic
 from .models import Book, Author, BookInstance, Genre, Language
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import permission_required
-from .forms import RenewBookForm
+from .forms import RenewBookModelForm
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 import datetime
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Author
 
 # Create your views here.
 
@@ -81,7 +84,7 @@ def renew_book_librarian(request, pk):
     # Process form data if POST
     if request.method == 'POST':
         # create new form
-        form = RenewBookForm(request.POST)
+        form = RenewBookModelForm(request.POST)
         # check whether valid
         if form.is_valid():
             # save new due_date in book_inst
@@ -92,5 +95,21 @@ def renew_book_librarian(request, pk):
     # If GET --> Default-Form
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
+        form = RenewBookModelForm(initial={'renewal_date': proposed_renewal_date,})
     return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst': book_inst})
+
+
+class AuthorCreate(CreateView):
+    model = Author
+    fields = '__all__'
+    initial = {'date_of_death': '12/10/2016'}
+
+
+class AuthorUpdate(UpdateView):
+    model = Author
+    fields = '__all__'
+
+
+class AuthorDelete(DeleteView):
+    model = Author
+    success_url = reverse_lazy('authors')
