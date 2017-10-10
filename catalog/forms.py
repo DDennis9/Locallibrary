@@ -9,7 +9,8 @@ class RenewBookForm(forms.Form):
     renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")
 
     def clean_renewal_date(self):
-        data = self.cleaned_data['renewal_date']
+        """Overriding method for validating the field. Method schema: clean_<field_name>."""
+        data = self.cleaned_data['renewal_date'] # returns data with usage of default validators
 
         # Check date is not in past.
         if data < datetime.date.today():
